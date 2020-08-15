@@ -1,7 +1,6 @@
 package com.sam.apitest;
 
-import static org.hamcrest.Matchers.equalTo;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import java.io.IOException;
@@ -41,15 +40,17 @@ class ApiApplicationShould {
         "3122gg", "020 3849381", 10000, LocalDate.of(1987, 1, 1));
     var personDetails = Collections.singletonList(personDetail);
 
-    RestAssured.given()
+    var results = RestAssured.given()
         .contentType("application/json")
         .body(request.toString())
         .header(new Header("input-type", "csv"))
         .header(new Header("output-type", "json"))
         .post("/api")
         .then()
-        .assertThat()
-        .body("result", equalTo(personDetails));
+        .extract()
+        .as(PersonDetail[].class);
+
+    assertThat(results).isEqualTo(personDetails.toArray());
   }
 
 }
