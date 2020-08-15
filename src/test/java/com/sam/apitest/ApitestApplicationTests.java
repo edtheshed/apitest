@@ -3,6 +3,7 @@ package com.sam.apitest;
 import static org.assertj.core.api.Assertions.assertThat;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
+import io.restassured.parsing.Parser;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -27,10 +28,11 @@ class ApiApplicationShould {
   @BeforeEach
   void setUp() {
     RestAssured.port = serverPort;
+    RestAssured.defaultParser = Parser.JSON;
   }
 
   @Test
-  void respond_with_a_structure_of_the_data_when_sent_a_single_record() throws IOException, JSONException {
+  void respond_with_a_structure_of_the_data_when_sent_a_single_record() throws JSONException {
     var csvList = "Name,Address,Postcode,Phone,Credit Limit,Birthday\n"
         + "\"Johnson, John\",Voorstraat 32,3122gg,020 3849381,10000,01/01/1987";
     JSONObject request = new JSONObject();
