@@ -14,8 +14,8 @@ public class Controller {
   @ResponseBody
   public ResponseEntity<?> transformDetails(@RequestHeader("output-type") String outputType,
       @RequestBody String data) {
-    Transformer transformer = TransformerFactory.getTransformer(outputType);
-    return ResponseEntity.ok(transformer.transformData(data));
+    Transformer typeTransformer = TransformerFactory.getTransformer(outputType);
+    return ResponseEntity.ok(typeTransformer.transformData(data));
   }
 
 }
